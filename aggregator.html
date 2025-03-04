@@ -1,0 +1,93 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class SocialMediaPost {
+    private String platform;
+    private String user;
+    private String content;
+
+    public SocialMediaPost(String platform, String user, String content) {
+        this.platform = platform;
+        this.user = user;
+        this.content = content;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + platform + "] " + user + ": " + content;
+    }
+}
+
+class SocialMediaAggregator {
+    private List<SocialMediaPost> feed;
+
+    public SocialMediaAggregator() {
+        this.feed = new ArrayList<>();
+    }
+
+    public void addPost(SocialMediaPost post) {
+        feed.add(post);
+        System.out.println("Post added from " + post.getPlatform());
+    }
+
+    public void displayFeed() {
+        if (feed.isEmpty()) {
+            System.out.println("No posts available.");
+        } else {
+            System.out.println("--- Social Media Feed ---");
+            for (SocialMediaPost post : feed) {
+                System.out.println(post);
+            }
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        SocialMediaAggregator aggregator = new SocialMediaAggregator();
+
+        while (true) {
+            System.out.println("\n1. Add Post");
+            System.out.println("2. View Feed");
+            System.out.println("3. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Platform (Twitter, Facebook, Instagram, etc.): ");
+                    String platform = scanner.nextLine();
+                    System.out.print("Enter Username: ");
+                    String user = scanner.nextLine();
+                    System.out.print("Enter Post Content: ");
+                    String content = scanner.nextLine();
+                    aggregator.addPost(new SocialMediaPost(platform, user, content));
+                    break;
+                case 2:
+                    aggregator.displayFeed();
+                    break;
+                case 3:
+                    System.out.println("Exiting application.");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid option. Try again.");
+            }
+        }
+    }
+}
